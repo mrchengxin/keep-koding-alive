@@ -12,7 +12,7 @@ sudo cp ./config.json /opt/shadowsocks/config.json
 #tar xzvf serverSpeederInstaller.tar.gz
 #sudo bash serverSpeederInstaller.sh
 #sudo vi /serverspeeder/etc/config
-sudo pip install supervisor
+sudo apt-get install supervisor
 sudo cp ./shadowsocks.conf /etc/supervisor/conf.d/shadowsocks.conf
 sudo supervisorctl update
 sudo mkdir /home/keepOn
