@@ -1,0 +1,9 @@
+{
+"server":"0.0.0.0",
+"server_port":8123,
+"password":"password",
+"timeout":500,
+"method":"aes-256-cfb",
+"fast_open":true,
+"workers":10
+}
