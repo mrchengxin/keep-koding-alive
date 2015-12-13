@@ -12,7 +12,7 @@ sudo cp ./config.json /opt/shadowsocks/config.json
 sudo bash ./serverSpeederInstaller.sh -e $serverSpeederEmail -p $serverSpeederPassword -in 1000000 -out 1000000 -i eth0 -r -t 0 -gso 1 -rsc 1 -b -f
 sudo cp serverSpeeder.conf /serverspeeder/etc/config
 sudo service serverSpeeder restart
-sudo apt-get install supervisor
+sudo apt-get install -y supervisor
 sudo cp ./shadowsocks.conf /etc/supervisor/conf.d/shadowsocks.conf
 sudo supervisorctl update
 sudo mkdir /home/keepOn
