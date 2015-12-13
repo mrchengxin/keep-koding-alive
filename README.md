@@ -14,39 +14,39 @@ This project do flowing things:
 
 ##How
 1. set password for root first:  
-```
-sudo passwd root
-```
+ ```
+ sudo passwd root
+ ```
 2. clone this project:  
-```
-git clone https://github.com/mrchengxin/keep-koding-alive.git
-```
+ ```
+ git clone https://github.com/mrchengxin/keep-koding-alive.git
+ ```
 3. execute install.sh:  
-```
-cd keep-koding-alive
-./install.sh <koding_username> <koding_password> <serverSpeeder_email> <serverSpeeder_password>
-```
+ ```
+ cd keep-koding-alive
+ ./install.sh <koding_username> <koding_password> <serverSpeeder_email> <serverSpeeder_password>
+ ```
 4. connect shadowsocks:  
-default server setting is as below:  
-```
-{
-"server":"0.0.0.0",
-"server_port":8123,
-"password":"password",
-"timeout":500,
-"method":"aes-256-cfb",
-"fast_open":true,
-"workers":10
-}
-```
-you can change it if you like:  
-```
-sudo vi /etc/shadowsocks/config.json
-```
-remember to restart ssserver after changing:  
-```
-supervisorctl restart shadowsocks
-```
+ default server setting is as below:  
+ ```
+ {
+ "server":"0.0.0.0",
+ "server_port":8123,
+ "password":"password",
+ "timeout":500,
+ "method":"aes-256-cfb",
+ "fast_open":true,
+ "workers":10
+ }
+ ```
+ you can change it if you like:  
+ ```
+ sudo vi /etc/shadowsocks/config.json
+ ```
+ remember to restart ssserver after changing:  
+ ```
+ supervisorctl restart shadowsocks
+ ```
 5. Enjoy
 
 ##Remarks
