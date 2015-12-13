@@ -50,7 +50,7 @@ supervisorctl restart shadowsocks
 #####5. Enjoy
 
 ##Remarks
-By default, this project uses "crontab" to keep instance always on from **0:00 to 14:00** (UTC).  
+By default, this project uses phantomjs and crontab to keep instance always on from **0:00 to 14:00** (UTC).  
 <font size='5'>
 **Please make this period as shorter as possible!  
 So we can save resources for good!**
