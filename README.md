@@ -6,10 +6,10 @@ This project provides solution to keep free-Koding-vps always on as a shadowsock
 
 > Koding.com is an online IDE for coding. Every free account owns a t2.micro EC2 instance.  
 > It also provides a fully accessible Ubuntu terminal. In theory, we can do anything on it.  
-> **But instance of free account will be shutdown if online IDE is not active.**
+> **But instance of free account will be shutdown after 1 hour if online IDE is not active.**
 
-This project do flowing things:
-* set up a shdowsocks server on Koding-vps
+Supports:
+* set up a shdowsocks server on Koding-instance
 * keep instance of free account always on
 
 ##How
