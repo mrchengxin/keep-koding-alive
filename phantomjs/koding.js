@@ -1,4 +1,5 @@
 var page = require('webpage').create(), system = require('system'), username, password;
+var isFirstEntrance = true;
 
 if (system.args.length < 2) {
 	console.log('Usage: koding.js <username> <password>');
@@ -33,6 +34,10 @@ page.onLoadFinished = function(status) {
 				$('[testpath="login-button"]').submit();
 			}, username, password);
 		} else if (currentUrl == 'https://koding.com/IDE/koding-vm-0/my-workspace') {
+			if (isFirstEntrance) {
+				page.reload();
+				isFirstEntrance = false;
+			}
 			function checkVMStatus() {
 				setTimeout(function() {
 					var isDialogDisplayed = page.evaluateJavaScript(function() {
