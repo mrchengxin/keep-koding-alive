@@ -57,6 +57,7 @@ page.onLoadFinished = function(status) {
 					} else if (vmStatus === 'on') {
 						console.log('[INFO] Running!!!');
 						console.log('[INFO] ' + new Date());
+						page.render('running.png');
 						phantom.exit();
 					} else {
 						checkVMStatus();
