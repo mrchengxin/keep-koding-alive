@@ -40,7 +40,11 @@ page.onLoadFinished = function(status) {
 						return document.getElementsByClassName('kdmodal-shadow').length > 0;
 					});
 					var isLoadingStatus = page.evaluateJavaScript(function() {
-						return document.getElementsByClassName('content-container')[0].firstElementChild.textContent.indexOf('turned off') < 0;
+						if (document.getElementsByClassName('content-container').length > 0) {
+							return document.getElementsByClassName('content-container')[0].firstElementChild.textContent.indexOf('turned off') < 0;
+						} else {
+							return false;
+						}
 					});
 					var vmStatus = 'checking';
 					if (isDialogDisplayed) {
@@ -58,7 +62,6 @@ page.onLoadFinished = function(status) {
 					} else if (vmStatus === 'on') {
 						console.log('[INFO] Running!!!');
 						console.log('[INFO] ' + new Date());
-						page.render('running.png');
 						phantom.exit();
 					} else {
 						checkVMStatus();
