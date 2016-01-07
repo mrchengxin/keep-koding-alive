@@ -45,7 +45,7 @@ sudo vi /etc/shadowsocks/config.json
 ```
 remember to restart ssserver after changing:  
 ```
-supervisorctl restart shadowsocks
+sudo supervisorctl restart shadowsocks
 ```
 #####5. Enjoy
 

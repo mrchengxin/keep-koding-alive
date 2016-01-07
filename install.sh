@@ -2,6 +2,7 @@
 if [ "$#" -ne 4 ]; then
 	echo "[INFO] Illegal number of parameters"
 	echo "[INFO] Usage: ./install.sh <koding_username> <koding_password> <serverSpeeder_email> <serverSpeeder_password>"
+	exit 1
 fi
 
 username=$1
