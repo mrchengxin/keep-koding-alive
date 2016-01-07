@@ -1,4 +1,9 @@
 #! /bin/sh
+if [ "$#" -ne 4 ]; then
+	echo "[INFO] Illegal number of parameters"
+	echo "[INFO] Usage: ./install.sh <koding_username> <koding_password> <serverSpeeder_email> <serverSpeeder_password>"
+fi
+
 username=$1
 password=$2
 serverSpeederEmail=$3
@@ -18,4 +23,4 @@ sudo supervisorctl update
 sudo mkdir /home/keepOn
 sudo cp ./phantomjs/phantomjs /home/keepOn/phantomjs
 sudo cp ./phantomjs/koding.js /home/keepOn/koding.js
-crontab -l | { cat; echo "*/10 0-14 * * * /home/keepOn/phantomjs /home/keepOn/koding.js $username $password > /home/keepOn/log"; } | crontab -
+sudo crontab -l | { cat; echo "*/10 0-14 * * * /home/keepOn/phantomjs /home/keepOn/koding.js $username $password > /home/keepOn/log"; } | sudo crontab -
