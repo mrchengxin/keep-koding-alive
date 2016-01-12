@@ -2,15 +2,15 @@
 phantomjs to keep koding.io alive  
 
 ##What
-This project provides solution to keep free-Koding-vps always on as a shadowsocks server.  
+This project provides solution to keep free-Koding-VM always on as a shadowsocks server.  
 
 > Koding.com is an online IDE for coding. Every free account owns a t2.micro EC2 instance.  
 > It also provides a fully accessible Ubuntu terminal. In theory, we can do anything on it.  
 > **But instance of free account will be shutdown after 1 hour if online IDE is not active.**
 
 Supports:
-* set up a shdowsocks server on Koding-instance
 * keep instance of free account always on
+* set up a shdowsocks server on Koding-instance
 
 ##How
 #####1. set password for root first:  
