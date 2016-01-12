@@ -1,5 +1,5 @@
 # keep-koding-alive
-phantomjs to keep koding.io alive  
+phantomjs to keep koding.com VM always on  
 
 ##What
 This project provides solution to keep free-Koding-VM always on as a shadowsocks server.  
