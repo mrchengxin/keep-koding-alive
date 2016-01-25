@@ -87,7 +87,7 @@ page.onLoadFinished = function(status) {
 						setTimeout(function() {
 							console.log('[INFO] ' + new Date());
 							phantom.exit();
-						}, 2000);
+						}, 5000);
 					} else {
 						checkVMStatus();
 					}
