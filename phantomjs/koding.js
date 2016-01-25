@@ -9,6 +9,8 @@ if (system.args.length < 2) {
 	password = system.args[2];
 }
 
+page.viewportSize = { width: 800, height: 600 };
+
 page.onLoadStarted = function() {
 	var currentUrl = page.evaluate(function() {
 		return window.location.href;
@@ -57,12 +59,35 @@ page.onLoadFinished = function(status) {
 					if (vmStatus === 'off') {
 						console.log('[INFO] Turn it on now!!!');
 						page.evaluateJavaScript(function() {
-							document.getElementsByClassName('content-container')[0].children[1].click()
+							document.getElementsByClassName('content-container')[0].children[1].click();
 						});
 					} else if (vmStatus === 'on') {
 						console.log('[INFO] Running!!!');
-						console.log('[INFO] ' + new Date());
-						phantom.exit();
+						// close all sessions, and create a new session
+						page.evaluate(function() {
+							$('div[class*="plus"]').click();
+							setTimeout(function() {
+								var sessionMenu = $('li[class*="new-terminal"]').next();
+								$(sessionMenu).removeClass('hidden');
+								if ($('.terminate-all', $(sessionMenu)).length > 0) {
+									$('.terminate-all', $(sessionMenu)).click();
+									setTimeout(function() {
+										$('div[class*="plus"]').click();
+										setTimeout(function() {
+											var newSessionMenu = $('li[class*="new-terminal"]').next();
+											$(newSessionMenu).removeClass('hidden');
+											$('.new-session', $(newSessionMenu)).click();
+										}, 500);
+									}, 500);
+								} else {
+									$('.new-session', $(sessionMenu)).click();
+								}
+							}, 500);
+						});
+						setTimeout(function() {
+							console.log('[INFO] ' + new Date());
+							phantom.exit();
+						}, 2000);
 					} else {
 						checkVMStatus();
 					}
@@ -78,6 +103,8 @@ page.onLoadFinished = function(status) {
 	}
 };
 
+
+console.log('[INFO] ' + new Date());
 page.open('https://koding.com/Login', function(status) {
 	if (status !== 'success') {
 		console.log('FAIL to load https://koding.com/Login');
