@@ -64,25 +64,25 @@ page.onLoadFinished = function(status) {
 					} else if (vmStatus === 'on') {
 						console.log('[INFO] Running!!!');
 						// close all sessions, and create a new session
-						page.evaluate(function() {
-							$('div[class*="plus"]').click();
+						page.evaluateJavaScript(function() {
+							document.getElementsByClassName('plus')[0].click();
 							setTimeout(function() {
-								var sessionMenu = $('li[class*="new-terminal"]').next();
-								$(sessionMenu).removeClass('hidden');
-								if ($('.terminate-all', $(sessionMenu)).length > 0) {
-									$('.terminate-all', $(sessionMenu)).click();
+								var sessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+								sessionMenu.className = sessionMenu.className.replace('hidden', '');
+								if (document.getElementsByClassName('terminate-all').length > 0) {
+									document.getElementsByClassName('terminate-all')[0].click();
 									setTimeout(function() {
-										$('div[class*="plus"]').click();
+										document.getElementsByClassName('plus')[0].click();
 										setTimeout(function() {
-											var newSessionMenu = $('li[class*="new-terminal"]').next();
-											$(newSessionMenu).removeClass('hidden');
+											var newSessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+											newSessionMenu.className = newSessionMenu.className.replace('hidden', '');
 											setTimeout(function() {
-												$('.new-session', $(newSessionMenu)).click();
+												document.getElementsByClassName('new-session')[0].click();
 											});
 										}, 1000);
 									}, 2000);
 								} else {
-									$('.new-session', $(sessionMenu)).click();
+									document.getElementsByClassName('new-session')[0].click();
 								}
 							}, 1000);
 						});
