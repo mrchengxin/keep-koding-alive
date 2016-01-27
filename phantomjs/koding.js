@@ -1,5 +1,6 @@
 var page = require('webpage').create(), system = require('system'), username, password;
 var isFirstTimeEnterWorkspace = true;
+var isFirstTimeEnterRunning = true;
 
 if (system.args.length < 2) {
 	console.log('Usage: koding.js <username> <password>');
@@ -62,36 +63,41 @@ page.onLoadFinished = function(status) {
 							document.getElementsByClassName('content-container')[0].children[1].click();
 						});
 					} else if (vmStatus === 'on') {
-						console.log('[INFO] Running!!!');
-						// close all sessions, and create a new session
-						page.evaluateJavaScript(function() {
-							setTimeout(function() {
-								document.getElementsByClassName('plus')[0].click();
+						if (isFirstTimeEnterRunning) {
+							isFirstTimeEnterRunning = false;
+							console.log('[INFO] Running!!!');
+							// close all sessions, and create a new session
+							page.evaluateJavaScript(function() {
 								setTimeout(function() {
-									var sessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
-									sessionMenu.className = sessionMenu.className.replace('hidden', '');
-									if (document.getElementsByClassName('terminate-all').length > 0) {
-										document.getElementsByClassName('terminate-all')[0].click();
-										setTimeout(function() {
-											document.getElementsByClassName('plus')[0].click();
+									document.getElementsByClassName('plus')[0].click();
+									setTimeout(function() {
+										var sessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+										sessionMenu.className = sessionMenu.className.replace('hidden', '');
+										if (document.getElementsByClassName('terminate-all').length > 0) {
+											document.getElementsByClassName('terminate-all')[0].click();
 											setTimeout(function() {
-												var newSessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
-												newSessionMenu.className = newSessionMenu.className.replace('hidden', '');
+												document.getElementsByClassName('plus')[0].click();
 												setTimeout(function() {
-													document.getElementsByClassName('new-session')[0].click();
+													var newSessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+													newSessionMenu.className = newSessionMenu.className.replace('hidden', '');
+													setTimeout(function() {
+														document.getElementsByClassName('new-session')[0].click();
+													}, 1000);
 												}, 1000);
-											}, 1000);
-										}, 5000);
-									} else {
-										document.getElementsByClassName('new-session')[0].click();
-									}
-								}, 1000);
-							}, 5000);
-						});
-						setTimeout(function() {
-							console.log('[INFO] ' + new Date());
-							phantom.exit();
-						}, 15000);
+											}, 5000);
+										} else {
+											document.getElementsByClassName('new-session')[0].click();
+										}
+									}, 1000);
+								}, 5000);
+							});
+							setTimeout(function() {
+								console.log('[INFO] ' + new Date());
+								phantom.exit();
+							}, 15000);
+						} else {
+							console.log('[WARN] Check running again.');
+						}
 					} else {
 						checkVMStatus();
 					}
