@@ -65,31 +65,33 @@ page.onLoadFinished = function(status) {
 						console.log('[INFO] Running!!!');
 						// close all sessions, and create a new session
 						page.evaluateJavaScript(function() {
-							document.getElementsByClassName('plus')[0].click();
 							setTimeout(function() {
-								var sessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
-								sessionMenu.className = sessionMenu.className.replace('hidden', '');
-								if (document.getElementsByClassName('terminate-all').length > 0) {
-									document.getElementsByClassName('terminate-all')[0].click();
-									setTimeout(function() {
-										document.getElementsByClassName('plus')[0].click();
+								document.getElementsByClassName('plus')[0].click();
+								setTimeout(function() {
+									var sessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+									sessionMenu.className = sessionMenu.className.replace('hidden', '');
+									if (document.getElementsByClassName('terminate-all').length > 0) {
+										document.getElementsByClassName('terminate-all')[0].click();
 										setTimeout(function() {
-											var newSessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
-											newSessionMenu.className = newSessionMenu.className.replace('hidden', '');
+											document.getElementsByClassName('plus')[0].click();
 											setTimeout(function() {
-												document.getElementsByClassName('new-session')[0].click();
-											});
-										}, 1000);
-									}, 2000);
-								} else {
-									document.getElementsByClassName('new-session')[0].click();
-								}
-							}, 1000);
+												var newSessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+												newSessionMenu.className = newSessionMenu.className.replace('hidden', '');
+												setTimeout(function() {
+													document.getElementsByClassName('new-session')[0].click();
+												}, 1000);
+											}, 1000);
+										}, 5000);
+									} else {
+										document.getElementsByClassName('new-session')[0].click();
+									}
+								}, 1000);
+							}, 5000);
 						});
 						setTimeout(function() {
 							console.log('[INFO] ' + new Date());
 							phantom.exit();
-						}, 8000);
+						}, 15000);
 					} else {
 						checkVMStatus();
 					}
