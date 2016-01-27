@@ -76,18 +76,20 @@ page.onLoadFinished = function(status) {
 										setTimeout(function() {
 											var newSessionMenu = $('li[class*="new-terminal"]').next();
 											$(newSessionMenu).removeClass('hidden');
-											$('.new-session', $(newSessionMenu)).click();
-										}, 500);
-									}, 500);
+											setTimeout(function() {
+												$('.new-session', $(newSessionMenu)).click();
+											});
+										}, 1000);
+									}, 2000);
 								} else {
 									$('.new-session', $(sessionMenu)).click();
 								}
-							}, 500);
+							}, 1000);
 						});
 						setTimeout(function() {
 							console.log('[INFO] ' + new Date());
 							phantom.exit();
-						}, 5000);
+						}, 8000);
 					} else {
 						checkVMStatus();
 					}
