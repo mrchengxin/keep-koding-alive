@@ -26,7 +26,8 @@ page.onLoadFinished = function(status) {
 	});
 	if (status !== 'success') {
 		console.log('[FAIL] Fail to load page ' + currentUrl);
-		phantom.exit();
+		console.log('[INFO] Reload page ' + currentUrl);
+		page.reload();
 	} else {
 		console.log('[INFO] Page ' + currentUrl + ' loaded...');
 		if (currentUrl == 'https://koding.com/Login') {
@@ -66,6 +67,7 @@ page.onLoadFinished = function(status) {
 						if (isFirstTimeEnterRunning) {
 							isFirstTimeEnterRunning = false;
 							console.log('[INFO] Running!!!');
+							console.log('[INFO] Terminate old sessions and create a new session...');
 							// close all sessions, and create a new session
 							page.evaluateJavaScript(function() {
 								setTimeout(function() {
@@ -117,6 +119,14 @@ page.onLoadFinished = function(status) {
 console.log('[INFO] ' + new Date());
 page.open('https://koding.com/Login', function(status) {
 	if (status !== 'success') {
-		console.log('FAIL to load https://koding.com/Login');
+		console.log('[FAIL] Fail to load page https://koding.com/Login');
+		console.log('[INFO] Reload page https://koding.com/Login');
+		page.reload();
 	}
 });
+
+// force kill this phantomJS thread if it's still alive after 3 mins
+setTimeout(function() {
+	console.log('[WARN] Force killed!!!');
+	phantom.exit();
+}, 180000);
