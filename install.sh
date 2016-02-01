@@ -24,4 +24,4 @@ sudo supervisorctl update
 sudo mkdir /home/keepOn
 sudo cp ./phantomjs/phantomjs /home/keepOn/phantomjs
 sudo cp ./phantomjs/koding.js /home/keepOn/koding.js
-sudo crontab -l | { cat; echo "*/10 0-14 * * * /home/keepOn/phantomjs /home/keepOn/koding.js $username $password > /home/keepOn/log"; } | sudo crontab -
+sudo crontab -l | { cat; echo "*/10 0-14 * * * /home/keepOn/phantomjs /home/keepOn/koding.js $username $password >> /home/keepOn/log"; } | sudo crontab -

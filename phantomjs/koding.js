@@ -12,6 +12,77 @@ if (system.args.length < 2) {
 
 page.viewportSize = { width: 800, height: 600 };
 
+//method functions
+function checkVMStatus() {
+	setTimeout(function() {
+		var isDialogDisplayed = page.evaluateJavaScript(function() {
+			return document.getElementsByClassName('kdmodal-shadow').length > 0;
+		});
+		var isLoadingStatus = page.evaluateJavaScript(function() {
+			if (document.getElementsByClassName('content-container').length > 0) {
+				return document.getElementsByClassName('content-container')[0].firstElementChild.textContent.indexOf('turned off') < 0;
+			} else {
+				return false;
+			}
+		});
+		var vmStatus = 'checking';
+		if (isDialogDisplayed) {
+			if (!isLoadingStatus) {
+				vmStatus = 'off';
+			}
+		} else {
+			vmStatus = 'on';
+		}
+		if (vmStatus === 'off') {
+			console.log('[INFO] Turn it on now!!!');
+			page.evaluateJavaScript(function() {
+				document.getElementsByClassName('content-container')[0].children[1].click();
+			});
+		} else if (vmStatus === 'on') {
+			if (isFirstTimeEnterRunning) {
+				isFirstTimeEnterRunning = false;
+				console.log('[INFO] Running!!!');
+				console.log('[INFO] Terminate old sessions and create a new session...');
+				// close all sessions, and create a new session
+				page.evaluateJavaScript(function() {
+					setTimeout(function() {
+						document.getElementsByClassName('plus')[0].click();
+						setTimeout(function() {
+							var sessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+							sessionMenu.className = sessionMenu.className.replace('hidden', '');
+							if (document.getElementsByClassName('terminate-all').length > 0) {
+								document.getElementsByClassName('terminate-all')[0].click();
+								setTimeout(function() {
+									document.getElementsByClassName('plus')[0].click();
+									setTimeout(function() {
+										var newSessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
+										newSessionMenu.className = newSessionMenu.className.replace('hidden', '');
+										setTimeout(function() {
+											document.getElementsByClassName('new-session')[0].click();
+										}, 1000);
+									}, 1000);
+								}, 5000);
+							} else {
+								document.getElementsByClassName('new-session')[0].click();
+							}
+						}, 1000);
+					}, 5000);
+				});
+				setTimeout(function() {
+					console.log('[INFO] ' + new Date());
+					console.log('');
+					phantom.exit();
+				}, 15000);
+			} else {
+				console.log('[WARN] Check running again.');
+			}
+		} else {
+			checkVMStatus();
+		}
+	}, 500);
+};
+
+// page functions
 page.onLoadStarted = function() {
 	var currentUrl = page.evaluate(function() {
 		return window.location.href;
@@ -38,76 +109,9 @@ page.onLoadFinished = function(status) {
 				$('[testpath="login-button"]').submit();
 			}, username, password);
 		} else if (currentUrl == 'https://koding.com/IDE/koding-vm-0/my-workspace') {
-			function checkVMStatus() {
-				setTimeout(function() {
-					var isDialogDisplayed = page.evaluateJavaScript(function() {
-						return document.getElementsByClassName('kdmodal-shadow').length > 0;
-					});
-					var isLoadingStatus = page.evaluateJavaScript(function() {
-						if (document.getElementsByClassName('content-container').length > 0) {
-							return document.getElementsByClassName('content-container')[0].firstElementChild.textContent.indexOf('turned off') < 0;
-						} else {
-							return false;
-						}
-					});
-					var vmStatus = 'checking';
-					if (isDialogDisplayed) {
-						if (!isLoadingStatus) {
-							vmStatus = 'off';
-						}
-					} else {
-						vmStatus = 'on';
-					}
-					if (vmStatus === 'off') {
-						console.log('[INFO] Turn it on now!!!');
-						page.evaluateJavaScript(function() {
-							document.getElementsByClassName('content-container')[0].children[1].click();
-						});
-					} else if (vmStatus === 'on') {
-						if (isFirstTimeEnterRunning) {
-							isFirstTimeEnterRunning = false;
-							console.log('[INFO] Running!!!');
-							console.log('[INFO] Terminate old sessions and create a new session...');
-							// close all sessions, and create a new session
-							page.evaluateJavaScript(function() {
-								setTimeout(function() {
-									document.getElementsByClassName('plus')[0].click();
-									setTimeout(function() {
-										var sessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
-										sessionMenu.className = sessionMenu.className.replace('hidden', '');
-										if (document.getElementsByClassName('terminate-all').length > 0) {
-											document.getElementsByClassName('terminate-all')[0].click();
-											setTimeout(function() {
-												document.getElementsByClassName('plus')[0].click();
-												setTimeout(function() {
-													var newSessionMenu = document.getElementsByClassName('new-terminal')[0].nextElementSibling;
-													newSessionMenu.className = newSessionMenu.className.replace('hidden', '');
-													setTimeout(function() {
-														document.getElementsByClassName('new-session')[0].click();
-													}, 1000);
-												}, 1000);
-											}, 5000);
-										} else {
-											document.getElementsByClassName('new-session')[0].click();
-										}
-									}, 1000);
-								}, 5000);
-							});
-							setTimeout(function() {
-								console.log('[INFO] ' + new Date());
-								phantom.exit();
-							}, 15000);
-						} else {
-							console.log('[WARN] Check running again.');
-						}
-					} else {
-						checkVMStatus();
-					}
-				}, 500);
-			};
 			if (isFirstTimeEnterWorkspace) {
-				page.reload();
 				isFirstTimeEnterWorkspace = false;
+				page.reload();
 			} else {
 				checkVMStatus();
 			}
@@ -115,7 +119,7 @@ page.onLoadFinished = function(status) {
 	}
 };
 
-
+// start program
 console.log('[INFO] ' + new Date());
 page.open('https://koding.com/Login', function(status) {
 	if (status !== 'success') {
