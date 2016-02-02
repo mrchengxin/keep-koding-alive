@@ -70,7 +70,7 @@ function checkVMStatus() {
 				});
 				setTimeout(function() {
 					console.log('[INFO] ' + new Date());
-					console.log('');
+					console.log('\r\n');
 					phantom.exit();
 				}, 15000);
 			} else {
