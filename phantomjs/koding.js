@@ -104,9 +104,9 @@ page.onLoadFinished = function(status) {
 		if (currentUrl == 'https://koding.com/Login') {
 			console.log('[INFO] Login now!!!');
 			page.evaluate(function(username, password) {
-				$('[name="username"]').val(username);
-				$('[name="password"]').val(password);
-				$('[testpath="login-button"]').submit();
+				document.querySelector('input[testpath="login-form-username"]').value = username;
+				document.querySelector('input[testpath="login-form-password"]').value = password;
+				document.querySelector('button[testpath="login-button"]').click();
 			}, username, password);
 		} else if (currentUrl == 'https://koding.com/IDE/koding-vm-0/my-workspace') {
 			if (isFirstTimeEnterWorkspace) {
