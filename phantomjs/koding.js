@@ -1,5 +1,4 @@
 var page = require('webpage').create(), system = require('system'), username, password;
-var isFirstTimeEnterWorkspace = true;
 var isFirstTimeEnterRunning = true;
 
 if (system.args.length < 2) {
@@ -109,12 +108,7 @@ page.onLoadFinished = function(status) {
 				document.querySelector('button[testpath="login-button"]').click();
 			}, username, password);
 		} else if (currentUrl == 'https://koding.com/IDE/koding-vm-0/my-workspace') {
-			if (isFirstTimeEnterWorkspace) {
-				isFirstTimeEnterWorkspace = false;
-				page.reload();
-			} else {
-				checkVMStatus();
-			}
+			checkVMStatus();
 		}
 	}
 };
