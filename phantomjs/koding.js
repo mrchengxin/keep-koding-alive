@@ -1,6 +1,7 @@
 var page = require('webpage').create(), system = require('system'), username, password;
 var isFirstTimeEnterRunning = true;
 var isTurningOn = false;
+var isReloadPage = false;
 
 if (system.args.length < 2) {
 	console.log('Usage: koding.js <username> <password>');
@@ -86,22 +87,25 @@ function checkVMStatus() {
 
 // page functions
 page.onLoadStarted = function() {
-	var currentUrl = page.evaluate(function() {
-		return window.location.href;
-	});
-	console.log('[INFO] Current page ' + currentUrl + ' will gone...');
-	console.log('[INFO] Now loading a new page...');
+	if (isReloadPage) {
+		isReloadPage = false;
+	} else {
+		var currentUrl = page.evaluate(function() {
+			return window.location.href;
+		});
+		console.log('[INFO] Current page ' + currentUrl + ' will gone...');
+		console.log('[INFO] Now loading a new page...');
+	}
 };
 
 page.onLoadFinished = function(status) {
-	var currentUrl = page.evaluate(function() {
-		return window.location.href;
-	});
 	if (status !== 'success') {
-		console.log('[FAIL] Fail to load page ' + currentUrl);
-		console.log('[INFO] Reload page ' + currentUrl);
+		isReloadPage = true;
 		page.reload();
 	} else {
+		var currentUrl = page.evaluate(function() {
+			return window.location.href;
+		});
 		console.log('[INFO] Page ' + currentUrl + ' loaded...');
 		if (currentUrl == 'https://koding.com/Login') {
 			console.log('[INFO] Login now!!!');
@@ -120,8 +124,7 @@ page.onLoadFinished = function(status) {
 console.log('[INFO] ' + new Date());
 page.open('https://koding.com/Login', function(status) {
 	if (status !== 'success') {
-		console.log('[FAIL] Fail to load page https://koding.com/Login');
-		console.log('[INFO] Reload page https://koding.com/Login');
+		isReloadPage = true;
 		page.reload();
 	}
 });
