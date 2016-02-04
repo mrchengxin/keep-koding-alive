@@ -1,5 +1,6 @@
 var page = require('webpage').create(), system = require('system'), username, password;
 var isFirstTimeEnterRunning = true;
+var isTurningOn = false;
 
 if (system.args.length < 2) {
 	console.log('Usage: koding.js <username> <password>');
@@ -33,11 +34,13 @@ function checkVMStatus() {
 			vmStatus = 'on';
 		}
 		if (vmStatus === 'off') {
+			isTurningOn = true;
 			console.log('[INFO] Turn it on now!!!');
 			page.evaluateJavaScript(function() {
 				document.getElementsByClassName('content-container')[0].children[1].click();
 			});
 		} else if (vmStatus === 'on') {
+			isTurningOn = false;
 			if (isFirstTimeEnterRunning) {
 				isFirstTimeEnterRunning = false;
 				console.log('[INFO] Running!!!');
@@ -124,7 +127,19 @@ page.open('https://koding.com/Login', function(status) {
 });
 
 // force kill this phantomJS thread if it's still alive after 3 mins
+// wait for 1 more min if it's turning on
 setTimeout(function() {
-	console.log('[WARN] Force killed!!!');
-	phantom.exit();
+	if (isTurningOn) {
+		setTimeout(function() {
+			console.log('[WARN] Force killed!!!');
+			console.log('[INFO] ' + new Date());
+			console.log('\r\n');
+			phantom.exit();
+		}, 60000);
+	} else {
+		console.log('[WARN] Force killed!!!');
+		console.log('[INFO] ' + new Date());
+		console.log('\r\n');
+		phantom.exit();
+	}
 }, 180000);
