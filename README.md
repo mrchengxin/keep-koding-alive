@@ -1,3 +1,6 @@
+**// cannot work anymore**  
+**// but you can still run this project on your local to keep the vm always on remotely**  
+
 # keep-koding-alive
 keep Koding VM always on by itself, and set up a Shadowsocks server on it  
 
