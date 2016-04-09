@@ -1,5 +1,6 @@
 #! /bin/sh
 sudo apt-get update
+wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/serverspeeder/master/serverspeeder-all.sh && bash serverspeeder-all.sh
 sudo apt-get install -y python-pip
 sudo pip install shadowsocks
 sudo mkdir /opt/shadowsocks
